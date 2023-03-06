@@ -3,7 +3,7 @@ __pycache__
 data
 build
 output
-image_cpp_cuda_tool/checkpoints
+image_cpp_cuda_tool/checkpoints/*
 checkpoints
 tmp
 notes
