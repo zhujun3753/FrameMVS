@@ -1,0 +1,12 @@
+[]
+running develop
+running egg_info
+writing self_image_cpp_cuda_tool.egg-info/PKG-INFO
+writing dependency_links to self_image_cpp_cuda_tool.egg-info/dependency_links.txt
+writing requirements to self_image_cpp_cuda_tool.egg-info/requires.txt
+writing top-level names to self_image_cpp_cuda_tool.egg-info/top_level.txt
+reading manifest file 'self_image_cpp_cuda_tool.egg-info/SOURCES.txt'
+writing manifest file 'self_image_cpp_cuda_tool.egg-info/SOURCES.txt'
+running build_ext
+building 'my_image_cpp_cuda_tool.my_image_tool' extension
+gcc -pthread -B /home/zhujun/anaconda3/envs/py39/compiler_compat -Wno-unused-result -Wsign-compare -DNDEBUG -O2 -Wall -fPIC -O2 -isystem /home/zhujun/anaconda3/envs/py39/include -I/home/zhujun/anaconda3/envs/py39/include -fPIC -O2 -isystem /home/zhujun/anaconda3/envs/py39/include -fPIC -I/home/zhujun/anaconda3/envs/py39/lib/python3.9/site-packages/torch/include -I/home/zhujun/anaconda3/envs/py39/lib/python3.9/site-packages/torch/include/torch/csrc/api/include -I/home/zhujun/anaconda3/envs/py39/lib/python3.9/site-packages/torch/include/TH -I/home/zhujun/anaconda3/envs/py39/lib/python3.9/site-packages/torch/include/THC -I/usr/local/cuda/include -I/home/zhujun/anaconda3/envs/py39/include/python3.9 -c my_image_cpp_cuda_tool/my_tool.cpp -o build/temp.linux-x86_64-3.9/my_image_cpp_cuda_tool/my_tool.o -w -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE="_gcc" -DPYBIND11_STDLIB="_libstdcpp" -DPYBIND11_BUILD_ABI="_cxxabi1011" -DTORCH_EXTENSION_NAME=my_image_tool -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++14

@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/c++/7",
+                "/usr/include/x86_64-linux-gnu/c++/7",
+                "/usr/include/c++/7/backward",
+                "/usr/lib/gcc/x86_64-linux-gnu/7/include",
+                "/usr/local/include",
+                "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
+                "/usr/include/x86_64-linux-gnu",
+                "/usr/include",
+                "/usr/local/cuda-11.2/targets/x86_64-linux/include",
+                "/opt/ros/melodic/include",
+                "/home/zhujun/anaconda3/envs/3dvnet/lib/python3.8/site-packages/torch/include/torch/csrc/api/include",
+                "${workspaceRoot}"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "/usr/include/c++/7",
+                    "/usr/include/x86_64-linux-gnu/c++/7",
+                    "/usr/include/c++/7/backward",
+                    "/usr/lib/gcc/x86_64-linux-gnu/7/include",
+                    "/usr/local/include",
+                    "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
+                    "/usr/include/x86_64-linux-gnu",
+                    "/usr/include",
+                    "/usr/local/cuda-11.2/targets/x86_64-linux/include",
+                    "/opt/ros/melodic/include",
+                    "/home/zhujun/anaconda3/envs/3dvnet/lib/python3.8/site-packages/torch/include/torch/csrc/api/include",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
+}

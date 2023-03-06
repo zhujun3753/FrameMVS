@@ -1,0 +1,73 @@
+cmake_minimum_required (VERSION 3.1 FATAL_ERROR)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(CMAKE_CUDA_COMPILER  "/usr/local/cuda/bin/nvcc")
+set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda")
+set(CUDNN_INCLUDE_PATH "/usr/local/cuda/include" )
+set(CUDNN_LIBRARY_PATH "/usr/local/cuda/lib64" )
+set(Torch_DIR /home/zhujun/WS/Documents/libtorch/share/cmake/Torch)
+set(CMAKE_CUDA_COMPILER_TOOLKIT_ROOT "/usr/local/cuda")
+set(CMAKE_CUDA_COMPILER_LIBRARY_ROOT "/usr/local/cuda")
+set(CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES "/usr/local/cuda/targets/x86_64-linux/include")
+
+project (ACMMP LANGUAGES CXX CUDA)
+# message(FATAL_ERROR WARNING "The CUDA compiler\n  \"${CMAKE_CUDA_COMPILER}\"\n")
+
+
+#* Check for working CUDA compiler: /usr/bin/nvcc -- broken
+find_package(Python REQUIRED)
+
+find_package(CUDA REQUIRED)
+#* 执行python， 输出cmake_prefix_path 到 DCMAKE_PREFIX_PATH, 不然找不到torch
+execute_process(
+    COMMAND ${Python_EXECUTABLE} -c "import torch.utils; print(torch.utils.cmake_prefix_path)"
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE DCMAKE_PREFIX_PATH)
+# set(CMAKE_PREFIX_PATH /home/zhujun/anaconda3/envs/py39/lib/python3.9/site-packages/torch/share/cmake)
+# set(CMAKE_PREFIX_PATH "${DCMAKE_PREFIX_PATH}")
+
+set(TORCH_CUDA_ARCH_LIST "8.6")
+find_package(Torch REQUIRED)
+include_directories(/home/zhujun/anaconda3/envs/py39/include/python3.9)
+
+find_package(OpenCV 3.4.2 REQUIRED )
+#* ikdtree
+find_package(Eigen3)
+
+include_directories(
+    .
+    ${OpenCV_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIR}
+    kd_tree
+    tools
+    )
+
+#* The experimental flag '--expt-relaxed-constexpr' can be used to allow this. is annoyed you can modify make.sh like below, add --expt-relaxed-constexpr
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 --use_fast_math  --maxrregcount=128 --ptxas-options=-v -std=c++14 --compiler-options -Wall -gencode arch=compute_86,code=sm_86 --expt-relaxed-constexpr)
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
+find_library(TORCH_PYTHON_LIBRARY torch_python PATHS "${TORCH_INSTALL_PREFIX}/lib")
+
+set(SRCS  cuda_py_api.cpp ACMMP.cpp ACMMP.cu kd_tree/ikd_Tree.cpp pointcloud_rgbd.cpp)
+
+message(STATUS "The TORCH_LIBRARIES: ${TORCH_LIBRARIES}\n")
+message(STATUS "The TORCH_PYTHON_LIBRARY:  ${TORCH_PYTHON_LIBRARY}\n")
+
+add_library(acmmppy SHARED ${SRCS})
+set_target_properties(acmmppy PROPERTIES CUDA_ARCHITECTURES "80;86")
+target_link_libraries(acmmppy "${TORCH_LIBRARIES}" "${TORCH_PYTHON_LIBRARY}" ${OpenCV_LIBS})
+
+
+add_library(simpletools SHARED simple_tools.cpp simple_tools.cu)
+set_target_properties(simpletools PROPERTIES CUDA_ARCHITECTURES "80;86")
+target_link_libraries(simpletools "${TORCH_LIBRARIES}" "${TORCH_PYTHON_LIBRARY}" ${OpenCV_LIBS})
+
+# nm 命令，用于读取库被导出的符号 可以用来看看那些函数没有定义
+# nm -gDC build/libsimpletools.so | grep -i parseSchemaOrNam
+# ldd 命令，用于查找某个动态库所依赖的库是否存在
+# ldd -r build/libacmmppy.so
+# ldd -r  ACMMP_net/build/libsimpletools.so
+# nm -gDC ACMMP_net/build/libacmmppy.so | grep -i  imwrite

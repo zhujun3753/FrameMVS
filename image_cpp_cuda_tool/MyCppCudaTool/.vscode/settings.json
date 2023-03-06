@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.cu": "cpp",
+        "__locale": "cpp",
+        "cstdlib": "cpp",
+        "*.tcc": "cpp",
+        "ios": "cpp",
+        "random": "cpp",
+        "algorithm": "cpp",
+        "cmath": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp"
+    }
+}
